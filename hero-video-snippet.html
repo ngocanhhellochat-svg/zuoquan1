@@ -1,0 +1,58 @@
+<!-- ===== 左詮 頂部影片區塊 (Video hero) =====
+     Dán khối này NGAY SAU thẻ <header> (thanh menu) hoặc ngay sau <body id="top">,
+     trước phần hero hiện tại. Đặt file assets/hero.mp4 và assets/hero-poster.jpg
+     cùng thư mục với index.html. -->
+<style>
+  .zq-video { position: relative; overflow: hidden; background: #111; isolation: isolate; }
+  .zq-video__bg {
+    position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px);
+    object-fit: cover; filter: blur(28px) brightness(.55) saturate(1.2); z-index: -1;
+  }
+  .zq-video__inner {
+    display: flex; justify-content: center; align-items: center;
+    padding: 24px 16px; min-height: min(86vh, 820px);
+  }
+  .zq-video__frame {
+    position: relative; height: min(78vh, 760px); aspect-ratio: 9 / 16; max-width: 100%;
+    border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    background: #000;
+  }
+  .zq-video__frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .zq-video__sound {
+    position: absolute; right: 12px; bottom: 12px; border: 0; cursor: pointer;
+    padding: 8px 14px; border-radius: 999px; font: 600 14px/1 system-ui, sans-serif;
+    background: rgba(0,0,0,.6); color: #fff; backdrop-filter: blur(6px);
+  }
+  .zq-video__sound:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  @media (max-width: 600px) {
+    .zq-video__inner { padding: 0; min-height: 0; }
+    .zq-video__frame { height: auto; width: 100%; border-radius: 0; box-shadow: none; max-height: 82vh; }
+    .zq-video__bg { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .zq-video__bg { display: none; } }
+</style>
+
+<section class="zq-video" aria-label="左詮 品牌影片">
+  <video class="zq-video__bg" src="assets/hero.mp4" poster="assets/hero-poster.jpg"
+         autoplay muted loop playsinline aria-hidden="true" tabindex="-1"></video>
+  <div class="zq-video__inner">
+    <div class="zq-video__frame">
+      <video id="zqHeroVideo" src="assets/hero.mp4" poster="assets/hero-poster.jpg"
+             autoplay muted loop playsinline preload="metadata"></video>
+      <button class="zq-video__sound" id="zqSound" type="button" aria-pressed="false">🔇 開啟聲音</button>
+    </div>
+  </div>
+</section>
+<script>
+  (function () {
+    var v = document.getElementById('zqHeroVideo'), b = document.getElementById('zqSound');
+    if (!v || !b) return;
+    b.addEventListener('click', function () {
+      v.muted = !v.muted;
+      if (!v.muted) v.play();
+      b.textContent = v.muted ? '🔇 開啟聲音' : '🔊 關閉聲音';
+      b.setAttribute('aria-pressed', String(!v.muted));
+    });
+  })();
+</script>
+<!-- ===== end 頂部影片區塊 ===== -->
